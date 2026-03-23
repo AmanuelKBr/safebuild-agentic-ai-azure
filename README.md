@@ -117,5 +117,5 @@ uvicorn app:app --reload
 
 ## Author
 
-Amanuel Birri
+Amanuel Birri |
 Azure | AI Systems | Data Engineering
