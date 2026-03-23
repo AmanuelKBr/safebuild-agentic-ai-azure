@@ -1,0 +1,77 @@
+{
+  "$schema": "https://aka.ms/dab.schema.json",
+  "data-source": {
+    "database-type": "mssql",
+    "connection-string": "@env('MSSQL_CONNECTION_STRING')"
+  },
+  "runtime": {
+    "host": {
+      "mode": "Production"
+    },
+    "rest": {
+      "enabled": true
+    },
+    "graphql": {
+      "enabled": false
+    },
+    "mcp": {
+      "enabled": true,
+      "path": "/mcp"
+    }
+  },
+  "entities": {
+    "SafetyInspections": {
+      "source": "bronze.SafetyInspections",
+      "description": "Construction safety inspection records. Use create_record to insert one complete inspection row.",
+      "fields": [
+        {
+          "name": "id",
+          "description": "Auto-generated primary key.",
+          "primary-key": true
+        },
+        {
+          "name": "site",
+          "description": "Construction site name or location."
+        },
+        {
+          "name": "inspection_datetime",
+          "description": "Inspection date and time in ISO format YYYY-MM-DDTHH:MM:SS."
+        },
+        {
+          "name": "inspector",
+          "description": "Name of the inspector."
+        },
+        {
+          "name": "hazard",
+          "description": "Short hazard title."
+        },
+        {
+          "name": "severity",
+          "description": "Hazard severity such as Low, Medium, High, or Severe."
+        },
+        {
+          "name": "description",
+          "description": "Detailed description of the safety issue."
+        },
+        {
+          "name": "recommended_action",
+          "description": "Recommended corrective action."
+        },
+        {
+          "name": "status",
+          "description": "Current record status such as Open, In Progress, or Closed."
+        },
+        {
+          "name": "created_at",
+          "description": "Auto-generated record creation timestamp."
+        }
+      ],
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": ["create", "read"]
+        }
+      ]
+    }
+  }
+}

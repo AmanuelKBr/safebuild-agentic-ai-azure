@@ -1,0 +1,68 @@
+1. List 5 common construction hazards and how to prevent each one
+
+### 5 Common Construction Hazards and Prevention Strategies
+
+- **Falls from Heights**  
+  *Risk*: Leading cause of fatalities; occurs on ladders, scaffolds, or roofs due to unstable surfaces or lack of guards.  
+  *Prevention*: Use guardrails, safety nets, or personal fall arrest systems (e.g., harnesses); ensure proper ladder setup and training; inspect equipment before use.
+
+- **Struck-by Objects**  
+  *Risk*: Workers hit by falling tools, materials, or equipment, often from overhead work.  
+  *Prevention*: Establish exclusion zones under overhead work; use toeboards on scaffolds; secure materials to prevent shifting; wear hard hats and enforce tool lanyards.
+
+- **Electrocution**  
+  *Risk*: Contact with live wires, overhead power lines, or faulty tools, causing shocks or burns.  
+  *Prevention*: Maintain safe distances from power lines (e.g., 10 feet minimum); use ground-fault circuit interrupters (GFCIs); inspect cords and tools daily; lock out/tag out energized equipment.
+
+- **Caught-in/Between**  
+  *Risk*: Workers trapped by collapsing trenches, machinery, or heavy loads.  
+  *Prevention*: Shore or trench boxes for excavations over 5 feet; use machine guarding and spotters; never work under suspended loads; train on pinch-point awareness.
+
+- **Chemical Exposure**  
+  *Risk*: Inhalation, skin contact, or ingestion from paints, solvents, or dust (e.g., silica), leading to respiratory issues or poisoning.  
+  *Prevention*: Read SDS sheets; use appropriate PPE like respirators and gloves; ensure proper ventilation; store chemicals securely and follow spill response protocols.
+
+
+2. What PPE is typically required on a construction site?
+
+### Typical PPE Required on Construction Sites
+
+Personal Protective Equipment (PPE) requirements vary by site-specific hazards, tasks, and location (e.g., based on site assessments or standards like those from OSHA), but the following are commonly mandated or recommended for most workers. Always conduct a hazard assessment and provide training on proper use and maintenance.
+
+- **Hard Hats**: Protects against head injuries from falling objects, bumps, or impacts. Required in most areas where overhead hazards exist; inspect regularly for cracks.
+
+- **Safety Glasses or Goggles**: Shields eyes from flying debris, dust, chemicals, or sparks. Use impact-rated for high-risk tasks like welding; ensure sealed fit for chemical exposures.
+
+- **High-Visibility Clothing (e.g., Vest or Shirt)**: Enhances visibility near traffic or machinery to prevent struck-by incidents. ANSI Class 2 or 3 rated; required in low-light or vehicle-heavy zones.
+
+- **Steel-Toed or Protective Footwear**: Guards feet from falling objects, punctures, or crushing. Must meet ASTM standards; pair with non-slip soles for wet/slippery surfaces.
+
+- **Hearing Protection (Ear Plugs or Muffs)**: Reduces noise-induced hearing loss from tools or equipment over 85 dB. Use rated NRR (Noise Reduction Rating) based on exposure; rotate if wet.
+
+**Additional Task-Specific PPE**:
+- Gloves for hand protection against cuts, chemicals, or vibrations.
+- Respirators for dust, fumes, or airborne hazards (fit-tested and approved).
+- Fall protection harnesses for work at heights over 6 feet.
+
+Employers must supply PPE at no cost, ensure it's maintained, and enforce compliance to prioritize worker safety. If unsure about site specifics, consult your safety officer or perform a job hazard analysis.
+
+
+
+
+3. A worker sees exposed wiring near a wet area. What should they do immediately?
+
+### Immediate Actions for Exposed Wiring Near a Wet Area
+
+Exposed wiring near moisture poses an urgent electrocution risk due to potential shocks, arcs, or fires. The worker should prioritize their safety and avoid direct contact. Here's what to do right away:
+
+1. **Stay Clear and Warn Others**: Do not touch the wiring or area. Immediately alert nearby workers to evacuate the zone to prevent accidental contact.
+
+2. **Report the Hazard**: Notify the site supervisor, safety officer, or foreman immediately (e.g., via radio, phone, or in person). Describe the location, exposure, and wet conditions.
+
+3. **Secure the Area**: If it's safe and without access to tools/electrical controls, use caution tape, signs, or barriers to isolate the area. Do not attempt to fix it yourself unless you're qualified and have proper lockout/tagout procedures.
+
+4. **De-Energize if Trained**: Only if authorized and trained, shut off power at the source (e.g., breaker panel) and apply lockout/tag out to prevent re-energizing. Otherwise, wait for a qualified electrician.
+
+5. **Seek Medical Attention if Needed**: If anyone has been shocked, call emergency services immediately and provide first aid (e.g., CPR if no breathing).
+
+After reporting, the site team should conduct an investigation, dry/insulate the area, and verify safety before resuming work. If you're the worker, document the incident for records. Always refer to site-specific electrical safety protocols.

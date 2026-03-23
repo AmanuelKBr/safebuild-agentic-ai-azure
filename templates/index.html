@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SafeBuild AI Orchestrator</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121934;
+            --text: #e8ecf8;
+            --muted: #a7b1cc;
+            --accent: #4f8cff;
+            --accent-2: #22c55e;
+            --border: rgba(255,255,255,0.08);
+            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --radius: 18px;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(79,140,255,0.25), transparent 28%),
+                radial-gradient(circle at top right, rgba(34,197,94,0.18), transparent 22%),
+                linear-gradient(180deg, #0b1020 0%, #10182f 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 20px 48px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.25fr 0.95fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .hero-card,
+        .status-card,
+        .panel {
+            background: rgba(18, 25, 52, 0.92);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-card,
+        .status-card,
+        .panel {
+            padding: 24px;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 34px;
+            line-height: 1.1;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+        }
+
+        .subtitle,
+        .panel p,
+        .status-item span {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .badge {
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+        }
+
+        .status-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .status-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .status-item strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .tab-button {
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 14px 0 8px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #95a1c5;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .chat-input-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .chat-input-row textarea {
+            min-height: 90px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-grid .full {
+            grid-column: 1 / -1;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-danger {
+            background: rgba(239,68,68,0.15);
+            color: #fecaca;
+            border: 1px solid rgba(239,68,68,0.35);
+        }
+
+        .result-panel {
+            display: grid;
+            gap: 16px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            min-height: 180px;
+        }
+
+        .result-card h3 {
+            margin: 0 0 10px;
+            font-size: 17px;
+        }
+
+        .result-meta {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .result-box {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .chat-thread {
+            display: grid;
+            gap: 12px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .bubble {
+            padding: 14px 16px;
+            border-radius: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .bubble.user {
+            background: rgba(79,140,255,0.16);
+        }
+
+        .bubble.assistant {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .bubble-meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .hint-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .hint {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 980px) {
+            .hero,
+            .layout,
+            .chat-input-row,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <div class="hero-card">
+                <h1>SafeBuild AI Orchestrator</h1>
+                <p class="subtitle">
+                    A production-style construction safety assistant with smart routing,
+                    chat continuity, retrieval-backed Q&A, and structured inspection intake.
+                </p>
+                <div class="badges">
+                    <div class="badge">Azure Container Apps</div>
+                    <div class="badge">Azure OpenAI</div>
+                    <div class="badge">Azure AI Search</div>
+                    <div class="badge">REST → DAB → Azure SQL</div>
+                    <div class="badge">App-Level Memory</div>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <h2>System Status</h2>
+                <div class="status-list">
+                    <div class="status-item">
+                        <strong>Smart Assistant</strong>
+                        <span>Maintains in-app conversation context for follow-up prompts.</span>
+                    </div>
+                    <div class="status-item">
+                        <strong>Safety Q&amp;A</strong>
+                        <span>Answers construction safety questions using Azure OpenAI and search-backed context.</span>
+                    </div>
+                    <div class="status-item">
+                        <strong>Inspection Intake</strong>
+                        <span>Creates structured inspection records and writes them to Azure SQL.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="layout">
+            <div class="panel">
+                <h2>Workspace</h2>
+                <p>Use Smart Assistant for chat continuity, ask a direct safety question, or submit a structured inspection.</p>
+
+                <div class="tabs">
+                    <button class="tab-button active" onclick="showTab('smart', event)">Smart Assistant</button>
+                    <button class="tab-button" onclick="showTab('qa', event)">Safety Q&amp;A</button>
+                    <button class="tab-button" onclick="showTab('inspection', event)">Inspection Intake</button>
+                </div>
+
+                <div id="smart" class="tab-content active">
+                    <label for="smartPrompt">Smart assistant message</label>
+                    <div class="chat-input-row">
+                        <textarea id="smartPrompt" placeholder="Example: Report a loose scaffold plank at West Tower, inspected by Amanuel on 2026-03-19 at 10:00 AM, severity High."></textarea>
+                        <button class="btn-primary" onclick="runSmartAssistant()">Send</button>
+                        <button class="btn-danger" onclick="resetSmartChat()">Reset Chat</button>
+                    </div>
+                </div>
+
+                <div id="qa" class="tab-content">
+                    <label for="question">Safety question</label>
+                    <textarea id="question" placeholder="Example: What PPE is required when working near scaffolding?"></textarea>
+                    <div class="actions">
+                        <button class="btn-primary" onclick="askQuestion()">Ask Question</button>
+                        <button class="btn-secondary" onclick="clearQuestion()">Clear</button>
+                    </div>
+                </div>
+
+                <div id="inspection" class="tab-content">
+                    <div class="form-grid">
+                        <div>
+                            <label for="site">Site</label>
+                            <input id="site" type="text" placeholder="Example: West Tower Project" />
+                        </div>
+
+                        <div>
+                            <label for="inspection_datetime">Inspection DateTime</label>
+                            <input id="inspection_datetime" type="datetime-local" />
+                        </div>
+
+                        <div>
+                            <label for="inspector">Inspector</label>
+                            <input id="inspector" type="text" placeholder="Example: Amanuel Kebede" />
+                        </div>
+
+                        <div>
+                            <label for="severity">Severity</label>
+                            <select id="severity">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+
+                        <div class="full">
+                            <label for="hazard">Hazard</label>
+                            <input id="hazard" type="text" placeholder="Example: Loose scaffold plank" />
+                        </div>
+
+                        <div class="full">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Describe the hazard or unsafe condition."></textarea>
+                        </div>
+
+                        <div class="full">
+                            <label for="recommended_action">Recommended Action</label>
+                            <textarea id="recommended_action" placeholder="Example: Secure or replace plank before use."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="status">Status</label>
+                            <select id="status">
+                                <option value="Open" selected>Open</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn-primary" onclick="submitInspection()">Submit Inspection</button>
+                        <button class="btn-secondary" onclick="fillInspectionSample()">Fill Sample</button>
+                        <button class="btn-secondary" onclick="clearInspection()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel result-panel">
+                <div class="result-card">
+                    <h3>Smart Assistant Conversation</h3>
+                    <div id="chatMeta" class="result-meta">Conversation ready.</div>
+                    <div id="chatThread" class="chat-thread"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>Result</h3>
+                    <div id="resultMeta" class="result-meta">Ready.</div>
+                    <div id="resultBox" class="result-box">Your response will appear here.</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>Example prompts</h3>
+                    <div class="hint-list">
+                        <div class="hint">“What PPE is required for roof work?”</div>
+                        <div class="hint">“Report a hazard: exposed wiring at East Block inspected by Beth on 2026-03-19 09:30, severity High, recommended action isolate area and call electrician.”</div>
+                        <div class="hint">“Now make the severity Critical and set status to In Progress.”</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function getConversationId() {
+            let id = localStorage.getItem("safebuild_conversation_id");
+            if (!id) {
+                id = "conv-" + crypto.randomUUID();
+                localStorage.setItem("safebuild_conversation_id", id);
+            }
+            return id;
+        }
+
+        function setResult(meta, content) {
+            document.getElementById("resultMeta").textContent = meta;
+            document.getElementById("resultBox").textContent = content;
+        }
+
+        function setChatMeta(text) {
+            document.getElementById("chatMeta").textContent = text;
+        }
+
+        function appendBubble(role, text) {
+            const chatThread = document.getElementById("chatThread");
+            const bubble = document.createElement("div");
+            bubble.className = `bubble ${role}`;
+
+            const meta = document.createElement("div");
+            meta.className = "bubble-meta";
+            meta.textContent = role === "user" ? "You" : "SafeBuild";
+
+            const content = document.createElement("div");
+            content.textContent = text;
+
+            bubble.appendChild(meta);
+            bubble.appendChild(content);
+            chatThread.appendChild(bubble);
+            chatThread.scrollTop = chatThread.scrollHeight;
+        }
+
+        function clearChatThread() {
+            document.getElementById("chatThread").innerHTML = "";
+        }
+
+        function showTab(tabId, event) {
+            document.querySelectorAll(".tab-content").forEach(tab => {
+                tab.classList.remove("active");
+            });
+
+            document.querySelectorAll(".tab-button").forEach(button => {
+                button.classList.remove("active");
+            });
+
+            document.getElementById(tabId).classList.add("active");
+            event.target.classList.add("active");
+        }
+
+        async function runSmartAssistant() {
+            const promptBox = document.getElementById("smartPrompt");
+            const prompt = promptBox.value.trim();
+
+            if (!prompt) {
+                setResult("Validation", "Please enter a message.");
+                return;
+            }
+
+            const conversationId = getConversationId();
+
+            appendBubble("user", prompt);
+            setChatMeta("Processing...");
+            setResult("Processing", "Routing request...");
+
+            promptBox.value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        conversation_id: conversationId,
+                        message: prompt
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    appendBubble("assistant", "Error: " + data.error);
+                    setChatMeta("Error");
+                    setResult("Error", data.error);
+                    return;
+                }
+
+                appendBubble("assistant", data.message || "No response returned.");
+                setChatMeta("Conversation active");
+
+                if (data.action === "create_inspection") {
+                    const resultMessage = data.inspection_id
+                        ? `${data.message}\n\nInspection ID: ${data.inspection_id}`
+                        : data.message;
+
+                    setResult("Inspection created", resultMessage);
+                    return;
+                }
+
+                setResult("Safety answer", data.message || "No response returned.");
+            } catch (error) {
+                appendBubble("assistant", "Request failed: " + String(error));
+                setChatMeta("Request failed");
+                setResult("Request failed", String(error));
+            }
+        }
+
+        async function resetSmartChat() {
+            const conversationId = getConversationId();
+
+            try {
+                const response = await fetch("/reset-chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        conversation_id: conversationId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    setResult("Error", data.error);
+                    return;
+                }
+
+                localStorage.setItem("safebuild_conversation_id", "conv-" + crypto.randomUUID());
+                clearChatThread();
+                setChatMeta("Conversation reset.");
+                setResult("Ready", "Smart assistant conversation reset.");
+            } catch (error) {
+                setResult("Request failed", String(error));
+            }
+        }
+
+        async function askQuestion() {
+            const question = document.getElementById("question").value.trim();
+
+            if (!question) {
+                setResult("Validation", "Please enter a question.");
+                return;
+            }
+
+            setResult("Processing", "Generating answer...");
+
+            try {
+                const response = await fetch(`/ask?question=${encodeURIComponent(question)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    setResult("Error", data.error);
+                } else if (data.answer) {
+                    setResult("Safety answer", data.answer);
+                } else if (data.message) {
+                    setResult("Response", data.message);
+                } else {
+                    setResult("Response", JSON.stringify(data, null, 2));
+                }
+            } catch (error) {
+                setResult("Request failed", String(error));
+            }
+        }
+
+        async function submitInspection() {
+            const inspectionDatetimeRaw = document.getElementById("inspection_datetime").value;
+
+            const payload = {
+                site: document.getElementById("site").value.trim(),
+                inspection_datetime: inspectionDatetimeRaw ? new Date(inspectionDatetimeRaw).toISOString().slice(0, 19) : "",
+                inspector: document.getElementById("inspector").value.trim(),
+                hazard: document.getElementById("hazard").value.trim(),
+                severity: document.getElementById("severity").value,
+                description: document.getElementById("description").value.trim(),
+                recommended_action: document.getElementById("recommended_action").value.trim(),
+                status: document.getElementById("status").value
+            };
+
+            const missing = Object.entries(payload)
+                .filter(([_, value]) => !value)
+                .map(([key]) => key);
+
+            if (missing.length > 0) {
+                setResult("Validation", "Missing required fields: " + missing.join(", "));
+                return;
+            }
+
+            setResult("Processing", "Submitting inspection...");
+
+            try {
+                const response = await fetch("/create-inspection", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    setResult("Error", data.error);
+                    return;
+                }
+
+                const msg = data.inspection_id
+                    ? `${data.message}\n\nInspection ID: ${data.inspection_id}`
+                    : data.message;
+
+                setResult("Inspection created", msg);
+            } catch (error) {
+                setResult("Request failed", String(error));
+            }
+        }
+
+        function fillInspectionSample() {
+            document.getElementById("site").value = "West Tower Project";
+            document.getElementById("inspection_datetime").value = "2026-03-19T10:00";
+            document.getElementById("inspector").value = "Amanuel Kebede";
+            document.getElementById("hazard").value = "Loose scaffold plank";
+            document.getElementById("severity").value = "High";
+            document.getElementById("description").value = "A loose plank was identified on the upper scaffold platform near the west edge.";
+            document.getElementById("recommended_action").value = "Secure or replace the plank immediately and restrict access until corrected.";
+            document.getElementById("status").value = "Open";
+            setResult("Sample loaded", "Sample inspection data has been loaded into the form.");
+        }
+
+        function clearQuestion() {
+            document.getElementById("question").value = "";
+            setResult("Ready", "Question cleared.");
+        }
+
+        function clearInspection() {
+            document.getElementById("site").value = "";
+            document.getElementById("inspection_datetime").value = "";
+            document.getElementById("inspector").value = "";
+            document.getElementById("hazard").value = "";
+            document.getElementById("severity").value = "Medium";
+            document.getElementById("description").value = "";
+            document.getElementById("recommended_action").value = "";
+            document.getElementById("status").value = "Open";
+            setResult("Ready", "Inspection form cleared.");
+        }
+
+        setChatMeta("Conversation ready.");
+    </script>
+</body>
+</html>
