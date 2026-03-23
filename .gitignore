@@ -1,3 +1,4 @@
 .env
 __pycache__/
 *.pycfoundry_config.txt
+foundry_config.txt

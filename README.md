@@ -23,6 +23,8 @@ User
 DAB (Data API Builder)  
 → Azure SQL Database (bronze.SafetyInspections)
 
+![Architecture](assets/architecture.png)
+
 ---
 
 ## Key Features
